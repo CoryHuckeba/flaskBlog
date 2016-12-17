@@ -15,3 +15,5 @@ DB_URI = "mysql+pymysql://%s:%s@%s/%s" % (
     BLOG_DB_NAME)
 SQLALCHEMY_DATABASE_URI = DB_URI
 SQLALCHEMY_TRACK_MODIFICATIONS = True
+UPLOADED_IMAGES_DEST = '/home/ubuntu/workspace/flask_blog/static/images'
+UPLOADED_IMAGES_URL = '/static/images/'

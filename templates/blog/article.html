@@ -1,0 +1,59 @@
+{% extends "base.html" %} 
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+
+{% from "_formhelpers.html" import render_field %}
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-6">
+        
+        {% if post.image %}
+        <img src="{{ post.imgsrc }}" height="300px" class="img-responsive" />
+        {% endif %}
+        
+        <h3>{{ post.title }}</h3>
+        
+        {% if session.get('is_author') %}
+        <a href="{{ url_for('edit', post_id=post.id) }}">Edit</a> - 
+        <a href="{{ url_for('delete', post_id=post.id) }}">Delete</a>
+        {% endif %}
+          
+        {{ post.body|markdown }}
+        
+        <hr/>
+        
+        <div class="text-muted">Posted by <a href="#">{{ post.author.fullname}}</a> 
+        on {{ post.publish_date.strftime('%Y-%m-%d') }} 
+        in <a href="#">{{ post.category.name }}</a>
+            
+        </div>
+        
+        <!-- Comments -->
+        <hr />
+        <h4>Comments</h4>
+        {% if post.comments %}
+        {% for comment in post.comments %}
+        
+        <br>
+        <h4>{{ comment.author_name }}</h4>
+        <p>
+            {{ comment.text }}
+        </p>
+        
+        {% endfor %}
+        {% endif %}
+        
+        <!-- Comment Creation -->
+        <form method="POST" action="{{ url_for('article', slug=post.slug) }}" role="form">
+            {{ form.hidden_tag() }}
+                
+            {{ render_field(form.text, class='form-control', rows=3) }}
+            <button type="submit" class="btn bnt-default">Post Comment</button>
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}
